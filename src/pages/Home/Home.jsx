@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import "./Home.css";
 import {fetchCandidates} from "../../utils/API.js";
-import {getPersistentCandidatesData} from "../../utils/helper.js";
+import {getPersistentCandidatesData, setPersistentCandidatesData, transformCandidatesData} from "../../utils/helper.js";
 import {FavoriteIcon} from "../../components/FavoriteIcon/FavoriteIcon";
+import { Card } from '../../components/Card/Card'
 
 /*
   This is a "React component", you don't really need to know react in dept,
@@ -23,9 +24,12 @@ export const Home = () => {
   const runOnHomePageLoad = async () => {
     // once you will succeed getting the data, make it persistent as required.
     // if the data is already fetched and persistent - don't fetch it again, use the condition below
-    const data = getPersistentCandidatesData();
+    const data =  await getPersistentCandidatesData();
+
     if (data) {
-      setCandidatesFunction(data);
+      const jsonData = setPersistentCandidatesData(data)
+      const transfData = transformCandidatesData(jsonData)
+      setCandidatesFunction(transfData);
     } else {
 
       // replace the empty array once you implemented the fetching code with: await fetchCandidates()
@@ -33,7 +37,7 @@ export const Home = () => {
 
       // replace the empty array once the data is transformed
       const transformedData = [];
-
+      
       //this function will save a "React State" and allow you to use the data via candidates variable outside.
       setCandidatesFunction(transformedData);
     }
@@ -44,10 +48,9 @@ export const Home = () => {
       <div className="home-title">Firm's candidates</div>
       <div className="home-subtitle">write your Name</div>
       <div className="candidates-list">
-
         ADD YOUR CANDIDATES CARD LIST IMPLEMENTATION HERE,
         USE candidates VARIABLE
-
+        <Card candidatesData = {candidates}/>
       </div>
     </div>
   );
