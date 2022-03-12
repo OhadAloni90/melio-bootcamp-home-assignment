@@ -9,13 +9,13 @@ export const getPersistentCandidatesData = async () => {
 }
 
 export const setPersistentCandidatesData = (data) => {
+  const englishSpeakingCountries = ['United States', 'United Kingdom', 'Canada', 'New Zealand', 'Australia']
   // Add your implementation of saving the candidates data
   const result = data.map(candidate => ({firstName: candidate.name.first, lastName: candidate.name.last, 
                                         email: candidate.email, city: candidate.location.city, country: candidate.location.country,
-                                        picutre: candidate.picture, uuid: candidate.login.uuid,
-                                         isFavorite: candidate.location.country === 'United States' || candidate.location.country === 'United Kingdom' ||
-                                          candidate.location.country === 'Australia' || candidate.location.country === 'Canada' ? true : false, 
-                                         isPreferred: false}));
+                                        picture: candidate.picture, uuid: candidate.login.uuid,
+                                         isPreferred: englishSpeakingCountries.includes(candidate.location.country) ? true : false, 
+                                          isFavorite: false}));
   
   // result.sort((a,b)=> {
   //   return a.firstName[0].localeCompare(b.firstName[0]);
@@ -36,6 +36,7 @@ export const transformCandidatesData = (data) => {
       sortedObj[alphabetLetter].push(data[i])
     }
   }
+  console.log(sortedObj)
   return sortedObj;
 };
 

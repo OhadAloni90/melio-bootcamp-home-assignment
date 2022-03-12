@@ -46,10 +46,8 @@ export const Home = () => {
   return (
     <div id="home">
       <div className="home-title">Firm's candidates</div>
-      <div className="home-subtitle">write your Name</div>
+      <div className="home-subtitle">Ohad Aloni</div>
       <div className="candidates-list">
-        ADD YOUR CANDIDATES CARD LIST IMPLEMENTATION HERE,
-        USE candidates VARIABLE
         <Card candidatesData = {candidates}/>
       </div>
     </div>
