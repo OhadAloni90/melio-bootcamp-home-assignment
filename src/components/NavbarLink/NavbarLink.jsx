@@ -12,7 +12,7 @@ export const NavbarLink = (props) => {
   };
 
   return (
-    <div onClick={handleClick}>
+    <div className='Link' onClick={handleClick}>
       {props.label}
     </div>
   );

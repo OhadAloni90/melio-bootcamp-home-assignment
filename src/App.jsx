@@ -4,6 +4,7 @@ import {Navbar} from "./components/Navbar/Navbar.jsx";
 import {Home, routes} from "./pages";
 import "./App.css";
 import {Playground} from "./utils/playground";
+import { Favorites } from "./pages/Favorites/Favorites.jsx";
 
 /*
   This is the entry point of the application, the magic starts here
@@ -22,6 +23,8 @@ const App = () => {
       <Routes>
         <Route path={routes.home}
                element={<Home/>}/>
+        <Route path={routes.favorites}
+                element={<Favorites/>}/>
       </Routes>
     </BrowserRouter>
   );

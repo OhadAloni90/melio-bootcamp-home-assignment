@@ -18,5 +18,21 @@
 }
 
 .candidates-list{
+  width:40%;
   margin-block-start: 30px;
+}
+
+@media only screen and (max-width:844px) {
+  .home-title {
+    font-size: 20px;
+    
+  }
+  .candidates-list {
+    width: 90%;
+  }
+  
+  .home-title {
+    font-size: 20px;
+  }
+  
 }

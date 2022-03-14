@@ -1,55 +1,53 @@
-import React from "react";
-import { render } from "react-dom";
+import React, {useEffect, useState} from "react";
+
+import { FavoriteIcon } from "../FavoriteIcon/FavoriteIcon/";
 import "./Card.css";
 
 export const Card = (props) => {
-  const candidates = props.candidatesData;
-  const candidatesSpreadArray = [];
-  const candidatesSpreadArrayLogic = Object.keys(candidates).map((key)=>{
-    candidates[key].map(can => candidatesSpreadArray.push(can))})
+  const candidate = props.candidateData;
 
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = (candidate) => {
+     props.favoriteClickCallBack(candidate)
   };
 
-  
-  // _renderObject () {
-  //   return Object.entries(candidates).map(([key, value], i)=> {
-  //     return (
-  //       <div key={key}>
-  //         name is : {value.firstName}
-  //       </div>
-  //     )
-  //   })
-  // }
-   return (  
-    candidatesSpreadArray.map(can=>{
-      return (
-            <div className="card">
-      <div className="card_img">
-        <img src={can.picture.large}/>
-      </div>
+  useEffect(()=>{
+    handleFavoriteClick
+  },[])
 
-      <div className="card_txt">
-        <span className="name-span">
-              <h3 className="card-title">
-                  {can.firstName + ' ' + can.lastName}
-              </h3>
-                {can.isPreferred ? <p className="pref-txt"> Preferred </p> : null}
-        </span>
+  const { firstName, lastName, picture, uuid, country, city, isFavorite, isPreferred, email } = candidate;
+
+   return (  
+      
+       
+      <div className="card" key={uuid} >
+        <div className="card_img" >
+          <img src={picture.large}/>
+        </div>
+
+        <div className="card_txt">
+          <span className="name-span">
+                <h3 className="card-title">
+                    {firstName + ' ' + lastName}
+                </h3>
+                  {isPreferred ? <p className="pref-txt"> Preferred </p> : null}
+          </span>
+          
         <div>
             <p>
-              {can.email}
+              {email}
             </p>
             <p>
-              {can.city + ', ' + can.country}
+              {city + ', ' + country}
             </p>
 
         </div>
       </div>
+        <div className= {`icon-div ${isFavorite ? 'active' : ''}`} onClick={() => handleFavoriteClick(candidate)}>
+          <FavoriteIcon/>
+        </div>
     </div>
 
       )
-    })
-   )
+  
 
 }
