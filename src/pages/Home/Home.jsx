@@ -21,7 +21,7 @@ export const Home = () => {
     runOnHomePageLoad();
   }, []);
 
-  const candidatesSpreadArray = [];
+  const likedCandidates = [];
 
   
   const runOnHomePageLoad = async () => {
@@ -58,8 +58,8 @@ export const Home = () => {
     const transformedUpdatesCandidates = transformCandidatesAlphabetically(updatedCandidates);
 
     setPersistentCandidatesData(transformedUpdatesCandidates);
-    
     setCandidatesFunction(transformedUpdatesCandidates);
+
   }
 
   return (

@@ -1,0 +1,34 @@
+#favorite {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .favorite-title {
+    display: flex;
+    font-size: 34px;
+    font-weight: 700;
+    margin-block-start: 50px;
+  }
+  
+  .favorite-subtitle {
+    display: flex;
+    font-size: 14px;
+  }
+  
+  
+  @media only screen and (max-width:844px) {
+    .favorite-title {
+      font-size: 20px;
+      
+    }
+    .favorite-list {
+      width: 90%;
+    }
+    
+    .favorite-title {
+      font-size: 20px;
+    }
+    
+  }

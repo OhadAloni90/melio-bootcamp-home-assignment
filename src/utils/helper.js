@@ -1,6 +1,6 @@
 import { fetchCandidates } from "./API";
 
-const PERSISTENT_CANDIDATES_LOCALSTORAGE_KEY = 'candidates';
+export const PERSISTENT_CANDIDATES_LOCALSTORAGE_KEY = 'candidates';
 
 export const getPersistentCandidatesData =  () => {
   // Add your implementation of getting your saved candidates data
@@ -24,6 +24,10 @@ export const transformCandidatesData = (data) => {
   return transformCandidatesAlphabetically(result);
 
 };  
+
+// You can add more logic here if you need to :)
+// - I do!
+
 export const transformCandidatesAlphabetically = (result) => {
     let sortedObj = {};
     for(let i=0; i < result.length; i++) {
@@ -40,4 +44,3 @@ export const transformCandidatesAlphabetically = (result) => {
 
 }
 
-// You can add more logic here if you need to :)
