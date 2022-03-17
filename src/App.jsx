@@ -3,7 +3,6 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {Navbar} from "./components/Navbar/Navbar.jsx";
 import {Home, routes} from "./pages";
 import "./App.css";
-import {Playground} from "./utils/playground";
 import { Favorites } from "./pages/Favorites/Favorites.jsx";
 
 /*
@@ -14,8 +13,6 @@ import { Favorites } from "./pages/Favorites/Favorites.jsx";
 
 const App = () => {
 
-  // Once you complete your first task, remove this call
-  Playground.runPlayground();
 
   return (
     <BrowserRouter>

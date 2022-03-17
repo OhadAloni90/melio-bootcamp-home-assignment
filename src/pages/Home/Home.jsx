@@ -15,27 +15,28 @@ export const Home = () => {
   // to update the candidates variable, you need to use setCandidatesFunction
   // Note - every time you use this function, it will auto refresh your Home page, we call it in React - "Render".
   const [candidates, setCandidatesFunction] = useState([]);
-  
+  const [hasDeleted, setHasDeleted] = useState(0)
   // this is "React Hook", a function that will be called ONCE, on every page load
   useEffect(() => {
     runOnHomePageLoad();
   }, []);
 
-  const likedCandidates = [];
+  useEffect(()=> { //Save count information when the home page reloads \ refresh so the user can restore information.
+    const initalValue = localStorage.getItem("hasDeleted");
+    if(initalValue) {
+      setHasDeleted(initalValue);
+    }
+  },[]);
+
 
   
   const runOnHomePageLoad = async () => {
     // once you will succeed getting the data, make it persistent as required.
     // if the data is already fetched and persistent - don't fetch it again, use the condition below
     const data =  await getPersistentCandidatesData();
-
     if (data) {
-      // const jsonData = setPersistentCandidatesData(data)
-      // const transfData = transformCandidatesData(jsonData);
-      // const candidatesSpreadArrayLogic = Object.keys(transfData).map((key)=>{
-      //   transfData[key].map(can => candidatesSpreadArray.push(can))})
-      // setCandidatesFunction(candidatesSpreadArray); 
         setCandidatesFunction(data);
+
     } else {
 
       // replace the empty array once you implemented the fetching code with: await fetchCandidates()
@@ -59,16 +60,51 @@ export const Home = () => {
 
     setPersistentCandidatesData(transformedUpdatesCandidates);
     setCandidatesFunction(transformedUpdatesCandidates);
-
+    
   }
 
+  const onHideHandler = (eventCandidate) => {
+    setHasDeleted(prevState => {
+      const newState = Number(prevState) + 1;
+      localStorage.setItem("hasDeleted", newState)
+      return newState;
+    })
+    const favCands = [];
+    const returnedArray = Object.values(candidates).flat().map(candidate => 
+      eventCandidate.uuid === candidate.uuid ? {...eventCandidate, isHidden: true} : candidate);
+
+      returnedArray.filter(candidate => {
+      if(!candidate.isHidden) {
+        favCands.push(candidate)
+      }
+    })
+    const transformedHiddenCandidates = transformCandidatesAlphabetically(favCands);
+    setPersistentCandidatesData(transformedHiddenCandidates);
+    setCandidatesFunction(transformedHiddenCandidates);
+    
+  }
+
+  const  onRestoreHandler = async () => {
+          const FD = await fetchCandidates();
+          const TD = transformCandidatesData(FD.results);
+          setPersistentCandidatesData(TD);
+          setCandidatesFunction(TD);
+          setHasDeleted(prevState => {
+            const stateZero = 0;
+            localStorage.setItem("hasDeleted", stateZero);
+            return stateZero;
+          });
+  }
+  
   return (
     <div id="home">
       <div className="home-title">Firm's candidates</div>
       <div className="home-subtitle">Ohad Aloni</div>
+      {hasDeleted > 0 ? <button onClick={onRestoreHandler} className="restore-btn">Restore list</button> : null }
+      
       <div className="candidates-list">
         {candidates && Object.values(candidates).flat().map(candidate  => {
-          return <Card key={candidate.uuid} candidateData = {candidate} favoriteClickCallBack={handleLike}/>
+          return <Card key={candidate.uuid} candidateData = {candidate} favoriteClickCallBack={handleLike} hiddenClickCallBack = {onHideHandler}/>
         })}
         
       </div>

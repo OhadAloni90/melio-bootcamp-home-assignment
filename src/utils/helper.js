@@ -1,4 +1,3 @@
-import { fetchCandidates } from "./API";
 
 export const PERSISTENT_CANDIDATES_LOCALSTORAGE_KEY = 'candidates';
 
@@ -19,7 +18,7 @@ export const transformCandidatesData = (data) => {
                                         email: candidate.email, city: candidate.location.city, country: candidate.location.country,
                                         picture: candidate.picture, uuid: candidate.login.uuid,
                                          isPreferred: englishSpeakingCountries.includes(candidate.location.country) ? true : false, 
-                                          isFavorite: false}));
+                                          isFavorite: false, isHidden: false}));
   // Add your implementation of transforming the fetched candidates data
   return transformCandidatesAlphabetically(result);
 
@@ -29,18 +28,17 @@ export const transformCandidatesData = (data) => {
 // - I do!
 
 export const transformCandidatesAlphabetically = (result) => {
-    let sortedObj = {};
-    for(let i=0; i < result.length; i++) {
-      let alphabetLetter = result[i].firstName[0].toUpperCase();
-      if (sortedObj[alphabetLetter] && sortedObj[alphabetLetter].length >= 0 ) {
-        sortedObj[alphabetLetter].push(result[i])
+
+    let data = result.reduce((alphabetArray,candidate)=> {
+      let groupTitle = candidate.firstName[0].toUpperCase();
+      if(!alphabetArray[groupTitle]) {
+        alphabetArray[groupTitle] = [candidate];
       }
       else {
-        sortedObj[alphabetLetter] = [];
-        sortedObj[alphabetLetter].push(result[i])
+        alphabetArray[groupTitle].push(candidate);
       }
-    }
-    return sortedObj;
-
+      return alphabetArray;
+    }, {})
+    return data;
 }
 

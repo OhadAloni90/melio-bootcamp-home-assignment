@@ -10,8 +10,14 @@ export const Card = (props) => {
      props.favoriteClickCallBack(candidate)
   };
 
+  const handleHiddenClick = (candidate) => {
+    props.hiddenClickCallBack(candidate);
+  }
+
   useEffect(()=>{
-    handleFavoriteClick
+    handleFavoriteClick || 
+    handleHiddenClick
+
   },[])
 
   const { firstName, lastName, picture, uuid, country, city, isFavorite, isPreferred, email } = candidate;
@@ -30,6 +36,8 @@ export const Card = (props) => {
                     {firstName + ' ' + lastName}
                 </h3>
                   {isPreferred ? <p className="pref-txt"> Preferred </p> : null}
+                  <button onClick={() => handleHiddenClick(candidate)} className="card-hide-btn">Delete</button>
+
           </span>
           
         <div>
